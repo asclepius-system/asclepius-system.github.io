@@ -1,1107 +1,1332 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
+  <head>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="robots" content="all">
-
-
-    <style>
-        a {
-          text-decoration:  none;
-        }
-        .test{
-            left:18em;
-        }
-              div input[type=checkbox] {
-                  display: none;
-              }
-              
-              div input[type=checkbox]:checked ~ .abstract  {
-                  display: none;
-              }
-              
-              div input[type=radio] {
-                  display: none;
-              }
-              
-              div input[type=radio]:not(:checked) ~ .abstract  {
-                  display: none;
-              }
-
-              a:hover {
-                  color: #C03030;
-              }
-
-
-        #wrapper
-        {
-            width: 18em; /* 480 */
-            height: 5em; /* 140 */
-        }
-        /*
-            PLAYER
-        */
-
-        .audioplayer
-        {
-            height: 2.5em; /* 40 */
-            color: #fff;
-            border: 1px solid #222;
-            position: relative;
-            z-index: 1;
-            background: #333;
-            width:20em;
-        }
-
-
-            /* mini mode (fallback) */
-
-            .audioplayer-mini
-            {
-                width: 2.5em; /* 40 */
-                margin: 0 auto;
-            }
-
-
-            /* player elements: play/pause and volume buttons, played/duration timers, progress bar of loaded/played */
-
-            .audioplayer > div
-            {
-                position: absolute;
-            }
-
-
-            /* play/pause button */
-
-            .audioplayer-playpause
-            {
-                width: 2.5em; /* 40 */
-                height: 100%;
-                text-align: left;
-                text-indent: -9999px;
-                cursor: pointer;
-                z-index: 2;
-                top: 0;
-                left: 0;
-            }
-                .audioplayer:not(.audioplayer-mini) .audioplayer-playpause
-                {
-                    border-right: 1px solid #555;
-                    border-right-color: rgba( 255, 255, 255, .1 );
-                }
-                .audioplayer-mini .audioplayer-playpause
-                {
-                    width: 100%;
-                }
-                .audioplayer-playpause:hover,
-                .audioplayer-playpause:focus
-                {
-                    background-color: #222;
-                }
-                .audioplayer-playpause a
-                {
-                    display: block;
-                }
-                .audioplayer-stopped .audioplayer-playpause a
-                {
-                    width: 0;
-                    height: 0;
-                    border: 0.5em solid transparent; /* 8 */
-                    border-right: none;
-                    border-left-color: #fff;
-                    content: '';
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    margin: -0.5em 0 0 -0.25em; /* 8 4 */
-                }
-                .audioplayer-playing .audioplayer-playpause a
-                {
-                    width: 0.75em; /* 12 */
-                    height: 0.75em; /* 12 */
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    margin: -0.375em 0 0 -0.375em; /* 6 */
-                }
-                    .audioplayer-playing .audioplayer-playpause a:before,
-                    .audioplayer-playing .audioplayer-playpause a:after
-                    {
-                        width: 40%;
-                        height: 100%;
-                        background-color: #fff;
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                    }
-                    .audioplayer-playing .audioplayer-playpause a:before
-                    {
-                        left: 0;
-                    }
-                    .audioplayer-playing .audioplayer-playpause a:after
-                    {
-                        right: 0;
-                    }
-
-
-            /* timers */
-
-            .audioplayer-time
-            {
-                width: 4.375em; /* 70 */
-                height: 100%;
-                line-height: 2.375em; /* 38 */
-                text-align: center;
-                z-index: 2;
-                top: 0;
-            }
-                .audioplayer-time-current
-                {
-                    border-left: 1px solid #111;
-                    border-left-color: rgba( 0, 0, 0, .25 );
-                    left: 2.5em; /* 40 */
-                }
-                .audioplayer-time-duration
-                {
-                    border-right: 1px solid #555;
-                    border-right-color: rgba( 255, 255, 255, .1 );
-                    right: 2.5em; /* 40 */
-                }
-                    .audioplayer-novolume .audioplayer-time-duration
-                    {
-                        border-right: 0;
-                        right: 0;
-                    }
-
-
-            /* progress bar of loaded/played */
-
-            .audioplayer-bar
-            {
-                height: 0.875em; /* 14 */
-                background-color: #222;
-                cursor: pointer;
-                z-index: 1;
-                top: 50%;
-                right: 6.875em; /* 110 */
-                left: 6.875em; /* 110 */
-                margin-top: -0.438em; /* 7 */
-            }
-                .audioplayer-novolume .audioplayer-bar
-                {
-                    right: 4.375em; /* 70 */
-                }
-                .audioplayer-bar div
-                {
-                    width: 0;
-                    height: 100%;
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                }
-                .audioplayer-bar-loaded
-                {
-                    background-color: #333;
-                    z-index: 1;
-                }
-                .audioplayer-bar-played
-                {
-                    background: #007fd1;
-                    z-index: 2;
-                }
-
-
-            /* volume button */
-
-            .audioplayer-volume
-            {
-                width: 2.5em; /* 40 */
-                height: 100%;
-                border-left: 1px solid #111;
-                border-left-color: rgba( 0, 0, 0, .25 );
-                text-align: left;
-                text-indent: -9999px;
-                cursor: pointer;
-                z-index: 2;
-                top: 0;
-                right: 0;
-            }
-                .audioplayer-volume:hover,
-                .audioplayer-volume:focus
-                {
-                    background-color: #222;
-                }
-                .audioplayer-volume-button
-                {
-                    width: 100%;
-                    height: 100%;
-                }
-                    .audioplayer-volume-button a
-                    {
-                        width: 0.313em; /* 5 */
-                        height: 0.375em; /* 6 */
-                        background-color: #fff;
-                        display: block;
-                        position: relative;
-                        z-index: 1;
-                        top: 40%;
-                        left: 35%;
-                    }
-                        .audioplayer-volume-button a:before,
-                        .audioplayer-volume-button a:after
-                        {
-                            content: '';
-                            position: absolute;
-                        }
-                        .audioplayer-volume-button a:before
-                        {
-                            width: 0;
-                            height: 0;
-                            border: 0.5em solid transparent; /* 8 */
-                            border-left: none;
-                            border-right-color: #fff;
-                            z-index: 2;
-                            top: 50%;
-                            right: -0.25em;
-                            margin-top: -0.5em; /* 8 */
-                        }
-                        .audioplayer:not(.audioplayer-muted) .audioplayer-volume-button a:after
-                        {
-                            /* "volume" icon by Nicolas Gallagher, http://nicolasgallagher.com/pure-css-gui-icons */
-                            width: 0.313em; /* 5 */
-                            height: 0.313em; /* 5 */
-                            border: 0.25em double #fff; /* 4 */
-                            border-width: 0.25em 0.25em 0 0; /* 4 */
-                            left: 0.563em; /* 9 */
-                            top: -0.063em; /* 1 */
-                            -webkit-border-radius: 0 0.938em 0 0; /* 15 */
-                            -moz-border-radius: 0 0.938em 0 0; /* 15 */
-                            border-radius: 0 0.938em 0 0; /* 15 */
-                            -webkit-transform: rotate( 45deg );
-                            -moz-transform: rotate( 45deg );
-                            -ms-transform: rotate( 45deg );
-                            -o-transform: rotate( 45deg );
-                            transform: rotate( 45deg );
-                        }
-
-
-                /* volume dropdown */
-
-                .audioplayer-volume-adjust
-                {
-                    height: 6.25em; /* 100 */
-                    cursor: default;
-                    position: absolute;
-                    left: 0;
-                    right: -1px;
-                    top: -9999px;
-                    background: #333;
-                }
-                    .audioplayer-volume:not(:hover) .audioplayer-volume-adjust
-                    {
-                        opacity: 0;
-                    }
-                    .audioplayer-volume:hover .audioplayer-volume-adjust
-                    {
-                        top: auto;
-                        bottom: 100%;
-                    }
-                    .audioplayer-volume-adjust > div
-                    {
-                        width: 40%;
-                        height: 80%;
-                        background-color: #222;
-                        cursor: pointer;
-                        position: relative;
-                        z-index: 1;
-                        margin: 30% auto 0;
-                    }
-                        .audioplayer-volume-adjust div div
-                        {
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            bottom: 0;
-                            left: 0;
-                            background: #007fd1;
-                        }
-                .audioplayer-novolume .audioplayer-volume
-                {
-                    display: none;
-                }
-
-
-            /* CSS3 decorations */
-            .audioplayer
-            {
-                -webkit-box-shadow: inset 0 1px 0 rgba( 255, 255, 255, .15 ), 0 0 1.25em rgba( 0, 0, 0, .5 ); /* 20 */
-                -moz-box-shadow: inset 0 1px 0 rgba( 255, 255, 255, .15 ), 0 0 1.25em rgba( 0, 0, 0, .5 ); /* 20 */
-                box-shadow: inset 0 1px 0 rgba( 255, 255, 255, .15 ), 0 0 1.25em rgba( 0, 0, 0, .5 ); /* 20 */
-            }
-            .audioplayer-volume-adjust
-            {
-                -webkit-box-shadow: -2px -2px 2px rgba( 0, 0, 0, .15 ), 2px -2px 2px rgba( 0, 0, 0, .15 );
-                -moz-box-shadow: -2px -2px 2px rgba( 0, 0, 0, .15 ), 2px -2px 2px rgba( 0, 0, 0, .15 );
-                box-shadow: -2px -2px 2px rgba( 0, 0, 0, .15 ), 2px -2px 2px rgba( 0, 0, 0, .15 );
-            }
-            .audioplayer-bar,
-            .audioplayer-volume-adjust > div
-            {
-                -webkit-box-shadow: -1px -1px 0 rgba( 0, 0, 0, .5 ), 1px 1px 0 rgba( 255, 255, 255, .1 );
-                -moz-box-shadow: -1px -1px 0 rgba( 0, 0, 0, .5 ), 1px 1px 0 rgba( 255, 255, 255, .1 );
-                box-shadow: -1px -1px 0 rgba( 0, 0, 0, .5 ), 1px 1px 0 rgba( 255, 255, 255, .1 );
-            }
-            .audioplayer-volume-adjust div div,
-            .audioplayer-bar-played
-            {
-                -webkit-box-shadow: inset 0 0 5px rgba( 255, 255, 255, .5 );
-                -moz-box-shadow: inset 0 0 5px rgba( 255, 255, 255, .5 );
-                box-shadow: inset 0 0 5px rgba( 255, 255, 255, .5 );
-            }
-            .audioplayer-playpause,
-            .audioplayer-volume a
-            {
-                -webkit-filter: drop-shadow( 1px 1px 0 #000 );
-                -moz-filter: drop-shadow( 1px 1px 0 #000 );
-                -ms-filter: drop-shadow( 1px 1px 0 #000 );
-                -o-filter: drop-shadow( 1px 1px 0 #000 );
-                filter: drop-shadow( 1px 1px 0 #000 );
-            }
-            .audioplayer,
-            .audioplayer-volume-adjust
-            {
-                background: -webkit-gradient( linear, left top, left bottom, from( #444 ), to( #222 ) );
-                background: -webkit-linear-gradient( top, #444, #222 );
-                background: -moz-linear-gradient( top, #444, #222 );
-                background: -ms-radial-gradient( top, #444, #222 );
-                background: -o-linear-gradient( top, #444, #222 );
-                background: linear-gradient( to bottom, #444, #222 );
-            }
-            .audioplayer-bar-played
-            {
-                background: -webkit-gradient( linear, left top, right top, from( #007fd1 ), to( #c600ff ) );
-                background: -webkit-linear-gradient( left, #007fd1, #c600ff );
-                background: -moz-linear-gradient( left, #007fd1, #c600ff );
-                background: -ms-radial-gradient( left, #007fd1, #c600ff );
-                background: -o-linear-gradient( left, #007fd1, #c600ff );
-                background: linear-gradient( to right, #007fd1, #c600ff );
-            }
-            .audioplayer-volume-adjust div div
-            {
-                background: -webkit-gradient( linear, left bottom, left top, from( #007fd1 ), to( #c600ff ) );
-                background: -webkit-linear-gradient( bottom, #007fd1, #c600ff );
-                background: -moz-linear-gradient( bottom, #007fd1, #c600ff );
-                background: -ms-radial-gradient( bottom, #007fd1, #c600ff );
-                background: -o-linear-gradient( bottom, #007fd1, #c600ff );
-                background: linear-gradient( to top, #007fd1, #c600ff );
-            }
-            .audioplayer-bar,
-            .audioplayer-bar div,
-            .audioplayer-volume-adjust div
-            {
-                -webkit-border-radius: 4px;
-                -moz-border-radius: 4px;
-                border-radius: 4px;
-            }
-            .audioplayer
-            {
-                -webkit-border-radius: 2px;
-                -moz-border-radius: 2px;
-                border-radius: 2px;
-            }
-            .audioplayer-volume-adjust
-            {
-                -webkit-border-top-left-radius: 2px;
-                -webkit-border-top-right-radius: 2px;
-                -moz-border-radius-topleft: 2px;
-                -moz-border-radius-topright: 2px;
-                border-top-left-radius: 2px;
-                border-top-right-radius: 2px;
-            }
-            .audioplayer *,
-            .audioplayer *:before,
-            .audioplayer *:after
-            {
-                -webkit-transition: color .25s ease, background-color .25s ease, opacity .5s ease;
-                -moz-transition: color .25s ease, background-color .25s ease, opacity .5s ease;
-                -ms-transition: color .25s ease, background-color .25s ease, opacity .5s ease;
-                -o-transition: color .25s ease, background-color .25s ease, opacity .5s ease;
-                transition: color .25s ease, background-color .25s ease, opacity .5s ease;
-            }
-
-
-        /* responsiveness */
-
-        @media only screen and ( max-width: 32.5em ) /* 520 */
-        {
-            body
-            {
-                -webkit-box-shadow: inset 0 0 9.375em rgba( 0, 0, 0, .5 ); /* 150 */
-                -moz-box-shadow: inset 0 0 9.375em rgba( 0, 0, 0, 5 ); /* 150 */
-                box-shadow: inset 0 0 9.375em rgba( 0, 0, 0, .5 ); /* 150 */
-            }
-            #wrapper
-            {
-                width: 100%;
-                height: auto;
-                position: static;
-                padding: 1.25em; /* 20 */
-                margin: 0;
-            }
-        }
-            @media all and (-ms-high-contrast:none)
-             {
-             .test { left:0em; } /* IE10 */
-             *::-ms-backdrop, .test { left:0em; } /* IE11 */
-             }
-    </style>
-</head>
-
-<body>
-<br>
-<br>
-
-
-
-<h2>Earphones adopted in Asclepius<br></h2>
-
-<table>
-    <tr>
-        <td>%     \textbf{Headphones}</td>
-        <td>\textbf{Type}</td>
-        <td>\textbf{Transducer}</td>
-        <td>\textbf{Impe. ($\Omega$)}</td>
-        <td>\textbf{Price (\$)}</td>
-    </tr>
-    <tr>
-        <td>%     {ATH M20X}</td>
-        <td>{Over-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{51.8}</td>
-        <td>{41}</td>
-    </tr>
-    <tr>
-        <td>%     {Hifiman HE400SE}</td>
-        <td>{Over-ear}</td>
-        <td>{Planar}</td>
-        <td>{32}</td>
-        <td>{99}</td>
-    </tr>
-    <tr>
-        <td>%     {Monolith M565C}</td>
-        <td>{Over-ear}</td>
-        <td>{Planar}</td>
-        <td>{18}</td>
-        <td>{157}</td>
-    </tr>
-    <tr>
-        <td>%     % {Razer Gaming headset}</td>
-        <td>{Over-ear}</td>
-        <td>{Neody-mium}</td>
-        <td>{32}</td>
-        <td>{65}</td>
-    </tr>
-    <tr>
-        <td>%     {Razer Kraken \break Ultimate}</td>
-        <td>{Over-ear}</td>
-        <td>{Neody-mium}</td>
-        <td>{32}</td>
-        <td>{65}</td>
-    </tr>
-    <tr>
-        <td>%     {Surface  \break Headphone2}</td>
-        <td>{Over-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{-}</td>
-        <td>{180}</td>
-    </tr>
-    <tr>
-        <td>%     % {Bose QC 35 II}</td>
-        <td>{Over-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{55.6}</td>
-        <td>{299}</td>
-    </tr>
-    <tr>
-        <td>%     {SONY MDRZX110}</td>
-        <td>{On-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{25.6}</td>
-        <td>{20}</td>
-    </tr>
-    <tr>
-        <td>%     {Grado SR80}</td>
-        <td>{On-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{32}</td>
-        <td>{100}</td>
-    </tr>
-    <tr>
-        <td>%     {ATH EW9}</td>
-        <td>{On-ear}</td>
-        <td>{Balanced \break Armature}</td>
-        <td>{29}</td>
-        <td>{106}</td>
-    </tr>
-    <tr>
-        <td>%     {JBL TUNE110}</td>
-        <td>{In-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{16}</td>
-        <td>{12}</td>
-    </tr>
-    <tr>
-        <td>%     {ATH ANC33iS}</td>
-        <td>{In-ear}</td>
-        <td>{Dynamic}</td>
-        <td>{32}</td>
-        <td>{29.9}</td>
-    </tr>
-    <tr>
-        <td>%     {Thinklabs Earbud}</td>
-        <td>{In-ear}</td>
-        <td>{-}</td>
-        <td>{-}</td>
-        <td>{-}</td>
-    </tr>
-</table>
-    
-
-<br>
-
-<h2>1. Encode hidden bits into instrumental musics.</h2>
-
-<ul>
-    
-    <li>
-        <span><big><b><i>Example A</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_A_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio1" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio1" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>Original audio</strong></big></big>  
-                </span>
-            </div>
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_A_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio2" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio2" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 670bps)</strong></big></big> 
-                </span>
-            </div>
-
-        </ul>
-    </li>
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example B</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_B_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_B_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 746bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>
-
-    <br>
-    <li>
-        <span><big><b><i>Example C</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_C_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/1_C_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 760bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>
-</ul>
-
-
-
-
-
-
-<br>
-
-<h2>2. Encode hidden bits into vocal musics.</h2>
-
-<ul>
-    
-    <li>
-        <span><big><b><i>Example A</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_A_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio1" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio1" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>Original audio</strong></big></big>  
-                </span>
-            </div>
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_A_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio2" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio2" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 658bps)</strong></big></big> 
-                </span>
-            </div>
-
-        </ul>
-    </li>
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example B</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_B_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_B_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 700bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>
-
-
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example C</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_C_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/2_C_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 910bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>       
-</ul>
-
-
-
-
-<br>
-<h2>3. Encode hidden bits into human speeches.</h2>
-
-
-<ul>
-
-    <li>
-        <span><big><b><i>Example A</i></b></big></span>
-        <p> </p>
-        <ul>  
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_A_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio000002" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio000002" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big>
-                </span>
-            </div> 
-
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_A_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio0003" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio0003" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">     
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 644bps)</strong></big></big> 
-                </span>
-            </div>
- 
-
-        </ul>
-    </li>
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example B</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_B_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio000002" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio000002" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big>
-                </span>
-            </div> 
-
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_B_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio0003" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio0003" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">     
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 653bps)</strong></big></big> 
-                </span>
-            </div> 
-        </ul>
-    </li>
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example C</i></b></big></span>
-        <p> </p>
-        <ul>  
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_C_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio000002" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio000002" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big>
-                </span>
-            </div> 
-
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/3_C_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio0003" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio0003" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top:  -2em; padding-left: 20.5em;">     
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 600bps)</strong></big></big> 
-                </span>
-            </div>
- 
-
-        </ul>
-    </li>    
-</ul>
-
-
-<br>
-
-<h2>4. Encode hidden bits into news reports (speeches with background sounds).</h2>
-
-<ul>
-    
-    <li>
-        <span><big><b><i>Example A</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_A_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio1" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio1" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>Original audio</strong></big></big>  
-                </span>
-            </div>
-
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_A_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio2" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio2" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <!-- <div> </div> -->
-                <big><big><strong>BitMuffler's audio (encoding rate: 629bps)</strong></big></big> 
-                </span>
-            </div>
-
-        </ul>
-    </li>
-
-
-    <br>
-    <li>
-        <span><big><b><i>Example B</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_B_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_B_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 656bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>
-
-    <br>
-    <li>
-        <span><big><b><i>Example C</i></b></big></span>
-        <p> </p>
-        <ul>
-
-            
-            <!-- second audio --> 
-            <div style="height: 2.5px;"> </div>
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_C_original.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio11" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio11" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>Original audio</strong></big></big> 
-                </span>
-            </div>
-
-
-            <!-- third audio -->
-            <div style="height: 2.5px;"> </div>      
-
-            <div style="margin-bottom: -0.8em">
-                        <audio id="wrapper" preload="auto" controls>
-                            <source src="audios/4_C_bitmuffler.wav" />
-                        </audio>
-<!--                 <a class="test" href="#" style="position: relative;  top: -1.8em; font-size: 18px;"><label for="audio12" style="float: none;">[Click to Reveal Transcription]</label></a>
-                <input checked="checked" id="audio12" type="checkbox" /> -->
-                <span class="abstract" style="position: relative; top: -2em; padding-left: 20.5em;">   
-                <big><big><strong>BitMuffler's audio (encoding rate: 636bps)</strong></big></big>  
-                </span>
-            </div>
-        
-        </ul>
-    </li>
-
-</ul>
-
-
-
-
-<br>
-<button type="button"style="font-size: 15px;margin-left: 12px"><a href="audio/released_audios.zip" download><big>Click to download all released audios</big></a></button>
-
-
-<br><br><br>
-
-
-<script src="jquery-min.js"></script>
-<script src="audioplayer.js"></script>
 <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>    
+
+
+<!-- ------- normal start --------- -->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
+    <!-- fonts style -->
+    <!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,bold,900,600">     -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">  
+    <!-- <link href="bootstrap3_player.css" rel="stylesheet"> -->
+
+	<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+
+    <title>Asclepius</title>
+  </head>
+  <body>
+    <div class = "global_container">
+      <div class = "section"  >
+        <br>
+        <br>
+        <h1>Exploring the Feasibility of Remote <br>Cardiac Auscultation Using Earphones</h1>
+
+
+        <h1></h1> 
+		    <h1></h1> 
+		    <h4> Asclepius's Processing Animation </h4>
+      <hr color=#F1ECEC size="1">
+      <div class ="boxed">
+        <img class="scale_img" src = "img/design.jpg"></img>
+			
+			<br>
+        <p> <strong>Will have it tomorrow</strong> </p>
+
+        <img class="scale_img_65" src = "img/arch.jpg"></img>
+
+			<br>
+      </div>
+
+        <!-- <h1></h1> 
+        <h1></h1>
+        <h4>Demo </h4>
+        <hr color=#F1ECEC size="1">
+        <div class ="boxed">
+          <iframe src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+        </div> -->
+
+        <h1></h1> 
+		    <h1></h1> 
+		    <h4> Micro-Benchmark Results</h4>
+      <hr color=#F1ECEC size="1">
+      <div class ="boxed">
+        <img class="scale_img" src = "img/design.jpg"></img>
+        Will have it tomorrow
+        <p> <strong>Different ear canal environment.</strong></p>
+        
+			
+			<br>
+        <p> <strong>Different ear canal environment.</strong> </p>
+
+        <img class="scale_img_65" src = "img/arch.jpg"></img>
+
+			<br>
+      </div>
+
+
+      
+        <h1></h1> 
+        <h1></h1>   
+        <h4> Audio Clips from Human Subjects</h4>
+
+        <hr color=#F1ECEC size="1">
+        <div class ="boxed">   
+          <table class="table table-condensed table-striped">
+            <tbody>
+              <!-- <tr class="table-active"> -->
+              <p><i> Selecting 10 from 30 subjects. Subjects 1--8 are good. <br> Subjects 9--10 are worser with subject's motion noises.  <br> Each subject has 3 heart cycle examples: </i></p>
+              <p><i> (We recommend audiences using over-ear or on-ear earphones for better listening experience) </i></p>
+              <tr>
+                <td> <b>Subject1</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_1_groundtruth.wav"/>
+                  </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject1">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject1"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject3_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_2_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_2_groundtruth.wav"/>
+                  </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject1">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject1"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject3_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_3_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject3_3_groundtruth.wav"/>
+                  </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject1">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject1"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject3_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> <b>Subject2</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject2_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/subjects/human_subject2_1_groundtruth.wav"/>
+                  </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject2">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject2"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject2_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject2_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject2_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject2">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject2"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject2_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject2_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject2_3_groundtruth.wav"/>
+                    </audio>
+  
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject2">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject2"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject2_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> <b>Subject3</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject28_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject28_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject3">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject3"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject28_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject28_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject28_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject3">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject3"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject28_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject28_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject28_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject3">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject3"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject28_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td> <b>Subject4</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject30_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject30_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject4">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject4"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject30_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject30_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject30_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject4">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject4"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject30_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject30_4_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject30_4_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject4">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject4"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject30_4.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr>
+
+              <tr>
+                <td> <b>Subject5</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject1_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject1_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject5">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject5"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject1_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject1_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject1_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject5">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject5"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject1_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject1_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject1_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject5">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject5"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject1_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+
+              </tr>
+
+              <tr>
+                <td> <b>Subject6</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject11_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject11_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject6">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject6"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject11_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject11_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject11_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject6">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject6"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject11_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject11_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject11_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject6">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject6"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject11_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr>  
+
+              <tr>
+                <td> <b>Subject7</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject14_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject14_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject7">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject7"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject14_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject14_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject14_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject7">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject7"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject14_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject14_4_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject14_4_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject7">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject7"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject14_4.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr>  
+
+
+              <tr>
+                <td> <b>Subject8</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject16_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject16_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject8">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject8"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject16_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject16_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject16_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject8">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject8"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject16_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject16_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject16_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject8">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject8"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject16_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr> 
+
+
+              <tr>
+                <td> <b>Subject9 (Worser)</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject23_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject23_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject9">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject9"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject23_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject23_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject23_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject9">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject9"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject23_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject23_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject23_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject9">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject9"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject23_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr>
+
+              <tr>
+                <td> <b>Subject10 (Worser)</b></td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject26_1_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject26_1_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="1_subject10">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="1_subject10"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject26_1.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject26_2_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject26_2_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="2_subject10">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="2_subject10"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject26_2.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+                
+
+                <td>
+                  <audio controls>
+                    <source src="audios/subjects/human_subject26_3_asclepius.wav"/>
+                    </audio>
+                    <h3></h3>
+                    <audio controls>
+                    <source src="audios/subjects/human_subject26_3_groundtruth.wav"/>
+                    </audio>
+  
+                  <footer class="span12">
+                    <a href="#"><label for="3_subject10">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="3_subject10"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/subjects/human_subject26_3.jpg" height="auto" width="300"></img>                  
+                    </div>   
+                  </footer>   
+                </td>
+              </tr>
+
+             </tbody>
+          </table>
+
+          <br>
+          
+        </div>
+
+
+
+        <h1></h1> 
+        <h1></h1>   
+        <h4> Audio Clips from Pork Belly</h4>
+        <hr color=#F1ECEC size="1">
+        <div class ="boxed">
+          <table class="table table-condensed table-striped">
+        <tbody><tr>
+          <td><strong>Groups</strong></td>
+          <td><b> Types of Pathological PCG (from UMich Heart Sound & Murmur Library) </b></td>
+          </tr>
+        <tr>   
+          <td>G1</td>
+          <td>Split S1, Mid Systolic Click, Spilt S2 Persistent, Spilt S2 Transient</td>
+        </tr>
+        <tr>   
+          <td>G2</td>
+          <td>Early Systolic Murmur, Mid Systolic Murmur, Late Systolic Murmur, Holo Systolic Murmur, Early Diastolic Murmur, Systolic & Diastolic Murmur</td>
+        </tr>
+        <tr>   
+          <td>G3</td>
+          <td>S3 Gallop, S4 Gallop</td>
+        </tr>
+        <tr>   
+          <td>G4</td>
+          <td>Systolic Click & Late Systolic Murmur, S4 & Mid Systolic Murmur, S3 & Holo Systolic Murmur, Mitral Opening Snap & Diastolic Murmur, Systolic Murmur & Absent S2, Eject Systolic Murmur & Trans Split S2, Split S2 & Eject Systolic Murmur, Eject Systolic Murmur & Single S2 & Eject Click</td>
+        </tr>
+        </tbody></table>  
+        </div>
+        <p><i> Selecting each pathological PCG with one heart cycle example (Sys for Systolic, Dia for Diastolic, Mur for Murmur): </i></p>
+        <p><i> (We recommend audiences using over-ear or on-ear earphones for better listening experience) </i></p>
+        <div class ="boxed">     
+          <table class="table table-condensed table-striped">
+            <tbody>
+              <!-- <tr class="table-active"> -->
+              <tr>
+                <td> Split S1 </td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal02_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal02_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="split_s1">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="split_s1"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_02.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Mid_Sys Click </td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal04_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal04_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="Mid_Sys">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="Mid_Sys"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_04.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Spilt_S2 Persistent</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal19_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal19_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="3">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="3"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_19.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Spilt_S2 Transient </td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal20_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis1_abnormal20_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="4">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="4"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_20.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td> Early_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal06_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal06_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="5">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="5"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_06.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Mid_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal07_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal07_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="6">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="6"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_07.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Late_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal08_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal08_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="7">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="7"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_08.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Holo_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal09_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal09_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="8">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="8"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_09.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td> Early_Dia_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal16_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal16_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="9">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="9"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_16.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Sys&Dia_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal17_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis2_abnormal17_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="10">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="10"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_17.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> S3</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis3_abnormal05_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis3_abnormal05_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="11">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="11"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_05.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>S4</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis3_abnormal03_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_dis3_abnormal03_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="12">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="12"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_03.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Sys_Click& Late_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal10_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal10_1_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="13">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="13"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_10_1.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>S4& Mid_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal11_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal11_1_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="14">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="14"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_11_1.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> S3& Holo_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal12_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal12_1_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="15">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="15"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_12_1.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Opening_Snap& Dia_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal13_2_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal13_2_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="16">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="16"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_13_2.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Sys_Mur& Absent_S2</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal15_2_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal15_2_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="17">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="17"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_15_2.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Eject_Sys_Mur& Trans_Split_S2</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal21_3_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal21_3_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="18">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="18"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_21_3.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Split_S2& Eject_Sys_Mur</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal22_2_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal22_2_groundtruth.wav"/>
+                  </audio>
+        
+                  <footer class="span12">
+                  <a href="#"><label for="19">[Click to Reveal Waveform]</label></a>.
+                  <input checked="checked" type="checkbox" id="19"  />
+                  <div class="abstract">
+                    <img class="scale_img_10" src = "figures/pork/abnormal_22_2.jpg" height="auto" width="300"></img>                  
+                  </div>   
+                  </footer>
+                </td>
+
+                <td>Eject_Sys_Mur& Single_S2& Eject_Click</td>
+                <td> Asclepius <br><br> Groundtruth</td>
+
+                <td>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal23_1_asclepius.wav"/>
+                  </audio>
+                  <h3></h3>
+                  <audio controls>
+                  <source src="audios/pork/pork_abnormal23_1_groundtruth.wav"/>
+                  </audio>
+
+                  <footer class="span12">
+                    <a href="#"><label for="20">[Click to Reveal Waveform]</label></a>.
+                    <input checked="checked" type="checkbox" id="20"  />
+                    <div class="abstract">
+                      <img class="scale_img_10" src = "figures/pork/abnormal_23_1.jpg" height="auto" width="300"></img>                  
+                    </div>  
+                    </footer>
+                </td>
+              </tr>
+
+
+
+
+
+
+
+
+
+             </tbody>
+          </table>
+
+          <br>
+          
+        </div>
+
+        
+
+
+        <h1></h1> 
+        <h1></h1>
+        <h4> Configuration of earphones </h4>
+
+        <hr color=#F1ECEC size="1">    
+
+        <div class ="boxed">
+              <table class="table table-condensed table-striped">
+            <tbody><tr>
+              <td><strong>Headphones</strong></td>
+              <td><b>Type</b></td>
+              <td><b>Transducer</b></td>
+
+              <td><b>Impedence (Ohm)</b></td>
+              <td><b>Price (USD)</b></td>
+            </tr>
+            <tr>   
+              <td>ATH M20X </td>
+              <td>Over-ear </td>
+              <td>Dynamic </td>
+              <td>51.8 </td>
+              <td>41 </td>
+            </tr>
+            <tr>   
+              <td>Hifiman HE400SE </td>
+              <td>Over-ear </td>
+              <td>Planar </td>
+              <td>32 </td>
+              <td>99 </td>
+            </tr>
+
+            <tr>   
+              <td>Monolith M565C </td>
+              <td>Over-ear </td>
+              <td>Planar </td>
+              <td>18 </td>
+              <td>157 </td>
+            </tr>
+            <tr>   
+              <td>Razer Kraken Ultimate</td>
+              <td>Over-ear </td>
+              <td>Neody-mium </td>
+              <td>32 </td>
+              <td>65 </td>
+            </tr>
+            <tr>   
+              <td>Surface Headphone2 </td>
+              <td>Over-ear </td>
+              <td>Dynamic </td>
+              <td>- </td>
+              <td>299 </td>
+            </tr>
+            <tr>   
+              <td>Bose QC 35 II </td>
+              <td>Over-ear </td>
+              <td>Dynamic </td>
+              <td>55.6 </td>
+              <td>299 </td>
+            </tr>
+
+            <tr>   
+              <td>SONY MDRZX110 </td>
+              <td>On-ear </td>
+              <td>Dynamic </td>
+              <td>25.6 </td>
+              <td>20 </td>
+            </tr>
+
+            <tr>   
+              <td>Grado SR80 </td>
+              <td>On-ear </td>
+              <td>Dynamic </td>
+              <td>32 </td>
+              <td>100 </td>
+            </tr>
+            <tr>   
+              <td>ATH EW9 </td>
+              <td>On-ear </td>
+              <td>Balanced Armature</td>
+              <td>29 </td>
+              <td>106 </td>
+            </tr>
+            <tr>   
+              <td>JBL TUNE110 </td>
+              <td>In-ear </td>
+              <td>Dynamic </td>
+              <td>16 </td>
+              <td>12 </td>
+            </tr>
+            <tr>   
+              <td>ATH ANC33iS </td>
+              <td>In-ear </td>
+              <td>Dynamic </td>
+              <td>32 </td>
+              <td>29.9 </td>
+            </tr>
+            <tr>   
+              <td>Thinklabs Earbud </td>
+              <td>In-ear </td>
+              <td>- </td>
+              <td>- </td>
+              <td>- </td>
+            </tr>
+          </tbody></table>
+          <p>We will keep the table updated with future experiments on other earphones.</p>
+		    </div>
+        <h1></h1> 
+        <!-- <a href="audio/released_audios.zip" class="myButton">Download Audios</a>  -->
+        <h1></h1> 
+        <h1></h1> 
+		  
+</div>  
+        
+
+
+
+    <h1></h1> 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <script src="bootstrap3_player.js"></script> -->
+    <script src="audioplayer.js"></script>
+    <script>
     $( function()
     {
         $( 'audio' ).audioPlayer();
     });
-</script>
+    </script>
 
-
-
-
-
-
-
-
-
-
-</body>
-
+  </body>
 </html>

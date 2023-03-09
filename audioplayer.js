@@ -17,7 +17,7 @@
             var hoursDiv = secs / 3600, hours = Math.floor( hoursDiv ), minutesDiv = secs % 3600 / 60, minutes = Math.floor( minutesDiv ), seconds = Math.ceil( secs % 3600 % 60 );
             if( seconds > 59 ) { seconds = 0; minutes = Math.ceil( minutesDiv ); }
             if( minutes > 59 ) { minutes = 0; hours = Math.ceil( hoursDiv ); }
-            return ( hours == 0 ? '' : hours > 0 && hours.toString().length < 2 ? '0'+hours+':' : hours+':' ) + ( minutes.toString().length < 2 ? '0'+minutes : minutes ) + ':' + ( seconds.toString().length < 2 ? '0'+seconds : seconds );
+            return ( hours == 0 ? '' : hours > 0 && hours.toString().length < 2 ? hours+':' : hours+':' ) + ( minutes.toString().length < 2 ? minutes : minutes ) + ':' + ( seconds.toString().length < 2 ? '0'+seconds : seconds );
         },
         canPlayType   = function( file )
         {
