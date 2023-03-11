@@ -42,16 +42,50 @@
 
         <h1></h1> 
 		    <h1></h1> 
-		    <h4> Asclepius's Processing Animation </h4>
+		    <h4> One Heart Cycle Example in Asclepius</h4>
       <hr color=#F1ECEC size="1">
-      <div class ="boxed">
-        <img class="scale_img" src = "img/design.jpg"></img>
-			
-			<br>
-        <p> <strong>Will have it tomorrow</strong> </p>
+      <div class ="boxed">   
+        <table class="table table-condensed ">
+        <tbody>
+          <tr>
+            <img class="scale_img" src = "ablation/One-Heart-Cyle-Ablation2.jpg" height="300"></img>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> <i>Groundtruth</i> </td>
+            <td>
+            <audio controls>
+            <source src="ablation/ground/subject1_surface_stethoscope_1_split6_heart_cycles6_ground.wav"/>
+            </audio>
+            </td>
+          </tr>          
+          <tr>
+            <td> <b>Hardware detection</b> </td>
+            <td> 
+              <audio controls>
+              <source src="ablation/ear/subject1_surface_stethoscope_1_split6_heart_cycles6.wav"/>
+              </audio>
+            </td>
+            <td> <b>Spectrogram recovery</b></td>
+            <td>
+            <audio controls>
+            <source src="ablation/stage1/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_stage1_only.wav"/>
+            </audio>
+            </td>
+            <td> <b>Waveform correction</b> </td>
+            <td>
+            <audio controls>
+            <source src="ablation/final/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_processed.wav"/>
+            </audio>
+            </td>
+          </tr>
 
-        <img class="scale_img_65" src = "img/arch.jpg"></img>
 
+        </tbody>
+      </table>
 			<br>
       </div>
 
@@ -68,18 +102,67 @@
 		    <h4> Micro-Benchmark Results</h4>
       <hr color=#F1ECEC size="1">
       <div class ="boxed">
-        <img class="scale_img" src = "img/design.jpg"></img>
-        Will have it tomorrow
-        <p> <strong>Different ear canal environment.</strong></p>
-        
-			
-			<br>
-        <p> <strong>Different ear canal environment.</strong> </p>
-
-        <img class="scale_img_65" src = "img/arch.jpg"></img>
-
-			<br>
-      </div>
+        <table class="table table-condensed ">
+          <tbody>
+            <tr>
+              <img class="scale_img" src = "benchmark/human-subject-variantions.jpg" height="300"></img>
+            </tr>
+            <tr>
+              <td> <b> (a) Different ear canal environment: </b></td>
+              <td>We examine the impact of the ear canal environment on PCG signal quality.
+                We divide the normal ear canal condition into two groups (dry and wet ear canal), 
+                and invite a volunteer to conduct the same experiment before and after a shower.
+                As shown in the figure, we find the ear canal environment have negligible impact
+                to Ascleipus, the average RMSE only degrade from 1.08% to 1.12%. </td>
+            </tr>
+            <tr>
+              <td> <b> (b) Different human activity status: </b></td>
+              <td>We then examine the impact of different human activity status, 
+                We invite a volunteer to conduct same experiment before and 
+                after a running workout (termed as "normal status" and "after running").
+                We find the running workout decrease the performance of Asclepius with the RMSE drops
+                from 0.85% to 1.68%. One reason might be the workout involves significant interference noises (e.g., the 
+                vibrations of the chest) to heart sound auscultation. 
+                We thus suggest our users do not user Asclepius after a training workout directly.</td>
+            </tr>
+            
+            <tr>
+              <td> <b> (c) Different human position for auscultation: </b></td>
+              <td>Next, we examine the impact of different human positions for auscultation, 
+                specifically, sitting, standing, and lying down.
+                We find the sitting position have smaller average RMSE (0.8%) while involves higher variances.
+                The reason might be the sitting position is more likely to cause vital motion noises.
+                As for the other two positions, we find the average RMSE are similar (1.0% and 1.1%).
+               </td>
+            </tr>              
+            <tr>
+              <img class="scale_img" src = "benchmark/environment-variantations.jpg" height="300"></img>
+            </tr>
+            <tr>
+              <td> <b> (d) Different noise level: </b></td>
+              <td>We then examine the impact of the ambient noise. We play a piece of sound in the lab with 
+                different noise levels (ranges from 45 to 60 dBSPL) while conducting the experiment. In the benchmark study, we find the RMSE increase
+                slightly when noise level increases from 45 to 55dBSPL. 
+                One possible reason might be the closure of the earphone isolates the ambient noise from the outside sounds effectively.
+               </td>
+            </tr>    
+            <tr>
+              <td> <b> (e) Different video meeting platforms: </b></td>
+              <td> We finally assess the impact of different video meeting platforms on PCG quality. 
+                In the benchmark study, We tested four widely used video meeting platforms including Zoom, Skype, VooV and Webex.
+                We select the high-fidelity mode on each platform and conduct the experiment.
+                Our finding shows significant variation in performance across different platforms.
+                The VooV meeting has worst performance with the average RMSE of 2.8%.
+                followed by Zoom (2.4%) and Skype (2.4%).
+                The Webex meeting has the best performance with the average RMSE of 1.7%, however, its performance is still worse compared to
+                the previous study without video meeting.
+                The reason might be the audio compression algorithm adopted by these video meeting platform negatively affected the audio quality.
+                We leave it for future improvement.
+                  </td>
+            </tr> 
+          </tbody>
+        </table>
+          </div>
 
 
       
