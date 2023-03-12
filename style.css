@@ -1003,3 +1003,6 @@ input[type=checkbox]:checked ~ .abstract  {
     }
 }
 
+video::-webkit-media-controls {
+    display: none !important;
+}
