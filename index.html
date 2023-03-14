@@ -114,56 +114,63 @@
               <img class="scale_img" src = "benchmark/human-subject-variantions.jpg" height="300"></img>
             </tr>
             <tr>
-              <td> <b> (a) Different <br>ear canal <br>environment: </b></td>
-              <td>We examine the impact of the ear canal environment on PCG signal quality.
-                We divide the normal ear canal condition into two groups (dry and wet ear canal), 
-                and invite a volunteer to conduct the same experiment before and after a shower.
-                As shown in the figure, we find the ear canal environment have negligible impact
-                to Ascleipus, the average RMSE only degrade from 1.08% to 1.12%. </td>
+              <td> <b>Impact of<br> different <br>ear canal <br>environment: </b></td>
+              <td>We evaluate Asclepius's performance in a dry and a wet ear canal environment by
+                testing it before and after a shower. As shown in the Figure (a), Asclepius achieves
+                a decent performance in a dry ear canal environment, with an average RMSE of 1.08%.
+                The average RMSE slightly increases to 1.12% in a wet ear canal environment.
+                The result shows that the ear canal environment less impacts heart sound detection
+                and reconstruction. </td>
             </tr>
             <tr>
-              <td> <b> (b) Different <br>human activity<br> status: </b></td>
-              <td>We then examine the impact of different human activity status, 
-                We invite a volunteer to conduct same experiment before and 
-                after a running workout (termed as "normal status" and "after running").
-                We find the running workout decrease the performance of Asclepius with the RMSE drops
-                from 0.85% to 1.68%. One reason might be the workout involves significant interference noises (e.g., the 
-                vibrations of the chest) to heart sound auscultation. 
-                We thus suggest our users do not user Asclepius after a training workout directly.</td>
+              <td> <b>Impact of <br> different <br>human activities: </b></td>
+              <td>Next, we examine the impact of different human activities on Asclepius. 
+                In this trial of experiments, we invited a volunteer and measured her heart
+                sound before and after a running workout (termed as “normal status” and “after running”).
+                The average RMSE grows from 0.85% to around 1.68% before and after a running workout, 
+                as shown in Figure (b). One possible reason could be the amplified interference
+                from lung functions -- the subject tends to take deep breaths after a running workout,
+                which leads to higher interference to the heart sound signal.
+                We thus suggest users do not use Asclepius after a training workout.
+              </td>
             </tr>
             
             <tr>
-              <td> <b> (c) Different<br> human position: </b></td>
-              <td>Next, we examine the impact of different human positions for auscultation, 
-                specifically, sitting, standing, and lying down.
-                We find the sitting position have smaller average RMSE (0.8%) while involves higher variances.
-                The reason might be the sitting position is more likely to cause vital motion noises.
-                As for the other two positions, we find the average RMSE are similar (1.0% and 1.1%).
+              <td> <b>Impact of <br>different<br> human postures: </b></td>
+              <td>We then examine the impact of different human postures for auscultation.
+                We divide the postures into sitting, standing, and lying down and measure
+                the RMSE of recovered PCG signals in each posture setting. Figure (c) shows that
+                the sitting position has a smaller average RMSE (0.8%) but with a higher variance.
+                As for the other two postures, we find the average RMSE is slightly higher than that
+                of the sitting posture (1.0% and 1.1%).
                </td>
             </tr>              
             <tr>
               <img class="scale_img" src = "benchmark/environment-variantations.jpg" height="300"></img>
             </tr>
             <tr>
-              <td> <b> (d) Different<br> noise level: </b></td>
-              <td>We then examine the impact of the ambient noise. We play a piece of sound in the lab with 
-                different noise levels (ranges from 45 to 60 dBSPL) while conducting the experiment. In the benchmark study, we find the RMSE increase
-                slightly when noise level increases from 45 to 55dBSPL. 
-                One possible reason might be the closure of the earphone isolates the ambient noise from the outside sounds effectively.
+              <td> <b> Impact of <br>noise levels: </b></td>
+              <td> We then examine the impact of ambient noise levels on Asclepius's performance.
+                We play a piece of sound at different noise levels while experimenting.
+                The result is shown in Figure (d). The average RMSE grows slightly from
+                0.7% to 1.3% when the noise level increases from 45 to 60 dBSPL, not as much as we expected.
+                One reason could be that the earphone's closure blocks most of the ambient noise from entering
+                the ear canal.
                </td>
             </tr>    
             <tr>
-              <td> <b> (e) Different <br> video meeting <br>platforms: </b></td>
-              <td> We finally assess the impact of different video meeting platforms on PCG quality. 
-                In the benchmark study, We tested four widely used video meeting platforms including Zoom, Skype, VooV and Webex.
-                We select the high-fidelity mode on each platform and conduct the experiment.
-                Our finding shows significant variation in performance across different platforms.
-                The VooV meeting has worst performance with the average RMSE of 2.8%.
-                followed by Zoom (2.4%) and Skype (2.4%).
-                The Webex meeting has the best performance with the average RMSE of 1.7%, however, its performance is still worse compared to
-                the previous study without video meeting.
-                The reason might be the audio compression algorithm adopted by these video meeting platform negatively affected the audio quality.
-                We leave it for future improvement.
+              <td> <b>Impact of <br>video <br> meeting platform: </b></td>
+              <td>Finally, we assess the impact of different video meeting platforms on PCG quality.
+                Existing video meeting platforms adopt proprietary codecs to ensure high user quality,
+                which may negatively affect the quality of PCG signals. In this experiment, 
+                we tested four widely used video meeting platforms: Zoom, Skype, VooV, and Webex. 
+                We select the high-fidelity mode on each platform for PCG signal transmission. 
+                The results are shown in Figure (e). Our finding shows significant variation in
+                performance across different platforms. The VooV meeting has the worst performance,
+                with an average RMSE of 2.8%, followed by Zoom (2.4%) and Skype (2.4%). 
+                The Webex meeting performs best, with an average RMSE of 1.7%. These results suggest 
+                a non-compression transmission is needed for remote auscultation, and we believe this is
+                doable for these video streaming platforms through a simple patch.
                   </td>
             </tr> 
           </tbody>
