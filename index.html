@@ -160,7 +160,7 @@
             </tr>    
             <tr>
               <td> <b>Impact of <br>video <br> meeting platform: </b></td>
-              <td>Finally, we assess the impact of different video meeting platforms on PCG quality.
+              <td>Next, we assess the impact of different video meeting platforms on PCG quality.
                 Existing video meeting platforms adopt proprietary codecs to ensure high user quality,
                 which may negatively affect the quality of PCG signals. In this experiment, 
                 we tested four widely used video meeting platforms: Zoom, Skype, VooV, and Webex. 
@@ -172,7 +172,23 @@
                 a non-compression transmission is needed for remote auscultation, and we believe this is
                 doable for these video streaming platforms through a simple patch.
                   </td>
-            </tr> 
+            </tr>
+            <tr>
+              <td> <b>Impact of <br>different<br> wearing angle: </b></td>
+              <td>Lastly, we investigate the effects of various wearing angles on Asclepius.
+                Earbuds often sit differently in the ear based on their placement. Different wearing angles could 
+                introduce varying amounts of acoustic leakage, potentially affecting the perfect coupling between 
+                the earbud and the ear canal. 
+                To study this, we categorized wearing angles into five distinct degrees and measured the RMSE of the recovered 
+                PCG signal for each. At 0 degrees, which represents optimal coupling with no acoustic leakage, the RMSE begins at 1.22%. 
+                As illustrated in Figure (f), we observed that the average RMSE gradually increases from 1.22% to 1.73% as the wearing angle 
+                expands from 0 to 45 degrees. The RMSE remains elevated at 1.66% when the angle extends to 90 degrees,
+                possibly due to increased acoustic leakage and reduced earbud-to-ear canal coupling.
+                However, a surprising trend emerges when the angle reaches 180 and 270 degrees: 
+                the average RMSE drops slightly to 1.30% and 1.44%, respectively. 
+                This suggests that Asclepius's performance is not heavily compromised by variations in earphone placement.
+                  </td>
+            </tr>             
           </tbody>
         </table>
           </div>
