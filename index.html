@@ -10,9 +10,8 @@
   gtag('config', 'GA_MEASUREMENT_ID');
 </script> 
 
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+
+
 
 <!-- ------- normal start --------- -->
 
@@ -1379,11 +1378,13 @@
                   We denote &Delta;Z<sub>l</sub> and &Delta;Z<sub>r</sub> (&Delta;Z<sub>l</sub> &ne; &Delta;Z<sub>r</sub>) as the impedance variation of the left and right transducer due to physiological activities. 
                   The output voltage signal of HeadFi can be represented by:
                   
-                  $$ \Delta E  \propto \frac{Z \cdot (\Delta {Z_l} - \Delta {Z_r})}{(Z+\Delta {Z_r}) \cdot (Z+\Delta {Z_l})} $$
+                  <!-- $$ \Delta E  \propto \frac{Z \cdot (\Delta {Z_l} - \Delta {Z_r})}{(Z+\Delta {Z_r}) \cdot (Z+\Delta {Z_l})} $$ -->
+                  <img class="scale_img_10" src = "eqn.jpg"></img>
 
+                  <br>
                   The above equation reveals that HeadFi captures the difference in &Delta;Z<sub>l</sub> and &Delta;Z<sub>r</sub>, 
                   which inherently cancels out fine-grained signal features containing critical physiological meanings (such as S1, S2, and murmurs) .
-                  <br> </br>
+                  <!-- <br> </br> -->
 
                   The following Figure shows the heartbeat signals captured by (a) HeadFi and (b) an FDA-approved digital stethoscope (used as the groundtruth), respectively.
                   We observe that although HeadFi maintains the general profile of each heartbeat cycle, it cannot retain the fine-grained heartbeat 
