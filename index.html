@@ -8,8 +8,11 @@
   gtag('js', new Date());
 
   gtag('config', 'GA_MEASUREMENT_ID');
-</script>    
+</script> 
 
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 <!-- ------- normal start --------- -->
 
@@ -55,45 +58,11 @@
               <source src="ablation/final.m4v" type="video/mp4">
             </video>
           </tr>
-          <h4> One Heart Cycle Example</h4>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td> <i>Groundtruth</i> </td>
-            <td>
-            <audio controls>
-            <source src="ablation/ground/subject1_surface_stethoscope_1_split6_heart_cycles6_ground.wav"/>
-            </audio>
-            </td>
-          </tr>          
-          <tr>
-            <td> <b>Hardware detection</b> </td>
-            <td> 
-              <audio controls>
-              <source src="ablation/ear/subject1_surface_stethoscope_1_split6_heart_cycles6.wav"/>
-              </audio>
-            </td>
-            <td> <b>Spectrogram recovery</b></td>
-            <td>
-            <audio controls>
-            <source src="ablation/stage1/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_stage1_only.wav"/>
-            </audio>
-            </td>
-            <td> <b>Waveform refinement</b> </td>
-            <td>
-            <audio controls>
-            <source src="ablation/final/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_processed.wav"/>
-            </audio>
-            </td>
-          </tr>
-
-
         </tbody>
       </table>
-			<br>
       </div>
+          
+
 
         <!-- <h1></h1> 
         <h1></h1>
@@ -1290,13 +1259,6 @@
               </tr>
 
 
-
-
-
-
-
-
-
              </tbody>
           </table>
 
@@ -1312,6 +1274,131 @@
         <div class ="boxed">
           <img class="scale_img_120" src = "setup/out_for_web.jpg"  width="920" height="400"></img>
         </div>
+
+
+
+
+        <h1></h1> 
+        <h1></h1>
+        <h4> Comparison with HeadFi</h4>
+        <hr color=#F1ECEC size="1">  
+        
+        <div class ="boxed">
+          <table class="table table-condensed ">
+          <tbody>
+            <tr> <b>HeadFi </b> </tr>          
+            <tr>
+              <td> <b>Hardware detection</b> </td>
+              <td> 
+                <audio controls>
+                <source src="ablation_headfi/headfi_raw.wav"/>
+                </audio>
+              </td>
+              <td> <b>Spectrogram recovery</b></td>
+              <td>
+              <audio controls>
+              <source src="ablation_headfi/headfi_stage1_only.wav"/>
+              </audio>
+              </td>
+              <td> <b>Waveform refinement</b> </td>
+              <td>
+              <audio controls>
+              <source src="ablation_headfi/headfi_stage1_stage2.wav"/>
+              </audio>
+              </td>
+            </tr>
+          </tbody>
+          </table>
+          </div>   
+
+
+        <div class ="boxed">
+        <table class="table table-condensed ">
+        <tbody>
+          <tr> <b>Asclepius </b> </tr>          
+          <tr>
+            <td> <b>Hardware detection</b> </td>
+            <td> 
+              <audio controls>
+              <source src="ablation/ear/subject1_surface_stethoscope_1_split6_heart_cycles6.wav"/>
+              </audio>
+            </td>
+            <td> <b>Spectrogram recovery</b></td>
+            <td>
+            <audio controls>
+            <source src="ablation/stage1/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_stage1_only.wav"/>
+            </audio>
+            </td>
+            <td> <b>Waveform refinement</b> </td>
+            <td>
+            <audio controls>
+            <source src="ablation/final/subject1_surface_stethoscope_1_split6_heart_cycles6_reconst_processed.wav"/>
+            </audio>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+        </div>
+      
+        <div class ="boxed">
+          <table class="table table-condensed ">
+          <tbody>
+            <tr> <b>Stethoscope (Groundtruth) </b> </tr>  
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>         
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+              <audio controls>
+              <source src="ablation/ground/subject1_surface_stethoscope_1_split6_heart_cycles6_ground.wav"/>
+              </audio>
+              </td>
+            </tr>  
+          </tbody>
+          </table>
+          </div>
+
+          <div class ="boxed">
+            <table class="table table-condensed ">
+              <tbody>
+                <tr>
+                <td>
+                  <b>Why not HeadFi:</b> 
+                  The above audio examples demonstrate HeadFi is not qualified for reconstructing fine-grained heart sound used for auscultation.
+                  The reason could be HeadFi adopts a Wheatstone bridge to cancel out the strong music interference. 
+                  <br> </br>
+                  The Wheatstone bridge consists of four resistors. Two of them have an identical resistance (impedance), denoted as <i>Z</i>.
+                  Another two resistors are replaced by the left transducer and right transducer of an earphone, respectively, which are identical as well.
+                  As the physiological signal propagates along different paths before arriving at left and right transducers,
+                  it will lead to different variations to the impedance of the left transducer and right transducer of earphones.
+                  We denote &Delta;Z<sub>l</sub> and &Delta;Z<sub>r</sub> (&Delta;Z<sub>l</sub> &ne; &Delta;Z<sub>r</sub>) as the impedance variation of the left and right transducer due to physiological activities. 
+                  The output voltage signal of HeadFi can be represented by:
+                  
+                  $$ \Delta E  \propto \frac{Z \cdot (\Delta {Z_l} - \Delta {Z_r})}{(Z+\Delta {Z_r}) \cdot (Z+\Delta {Z_l})} $$
+
+                  The above equation reveals that HeadFi captures the difference in &Delta;Z<sub>l</sub> and &Delta;Z<sub>r</sub>, 
+                  which inherently cancels out fine-grained signal features containing critical physiological meanings (such as S1, S2, and murmurs) .
+                  <br> </br>
+
+                  The following Figure shows the heartbeat signals captured by (a) HeadFi and (b) an FDA-approved digital stethoscope (used as the groundtruth), respectively.
+                  We observe that although HeadFi maintains the general profile of each heartbeat cycle, it cannot retain the fine-grained heartbeat 
+                  features such as S1 and S2 heart sound components that are crucial to auscultation.
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+            </div>
+            <div class ="boxed">
+              <img class="scale_img_120" src = "ablation_headfi/fig_pre_revision.jpg"  width="920"></img>
+            </div>          
+
+        
 
 
         <h1></h1> 
